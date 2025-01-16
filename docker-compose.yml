@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_USER: bosstongymuser
+      MYSQL_PASSWORD: bosstongympassword
+      MYSQL_DATABASE: bosstongym
+    ports:
+      - "3307:3306" # Ganti port host menjadi 3307

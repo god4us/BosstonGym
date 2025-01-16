@@ -1,0 +1,20 @@
+/* Placeholder Logo */
+.logo-placeholder {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+  }
+  
+  /* Dropdown Menu */
+  .dropdown-toggle {
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .dropdown-toggle:hover {
+    color: #ff6b00;
+  }
+  

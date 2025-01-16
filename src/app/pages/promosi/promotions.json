@@ -1,0 +1,51 @@
+[
+  {
+    "id": 1,
+    "title": "Diskon Keanggotaan 6 Bulan",
+    "description": "Nikmati diskon 20% untuk keanggotaan 6 bulan.",
+    "duration": "Berlaku hingga 31 Desember 2024.",
+    "image": "/img/1.jpg"
+  },
+  {
+    "id": 2,
+    "title": "Kelas Gratis Setiap Sabtu",
+    "description": "Ikuti kelas kebugaran gratis setiap Sabtu pukul 08.00 WIB.",
+    "duration": "Terbuka untuk umum.",
+    "image": "/img/2.jpg"
+  },
+  {
+    "id": 3,
+    "title": "Paket Bundling Member + Personal Trainer",
+    "description": "Dapatkan harga spesial untuk paket keanggotaan dan personal trainer.",
+    "duration": "Hubungi kami untuk detail lebih lanjut.",
+    "image": "/img/3.jpg"
+  },
+  {
+    "id": 4,
+    "title": "Diskon Hari Kemerdekaan",
+    "description": "Diskon spesial 17% untuk keanggotaan baru selama bulan Agustus.",
+    "duration": "Berlaku hingga 31 Agustus 2024.",
+    "image": "/img/4.jpg"
+  },
+  {
+    "id": 5,
+    "title": "Diskon Akhir Tahun",
+    "description": "Diskon hingga 30% untuk semua paket keanggotaan.",
+    "duration": "Berlaku hingga 31 Desember 2024.",
+    "image": "/img/5.jpg"
+  },
+  {
+    "id": 6,
+    "title": "Bonus Kelas Yoga",
+    "description": "Gratis 5 kelas yoga untuk pendaftaran baru.",
+    "duration": "Berlaku hingga 31 Januari 2025.",
+    "image": "/img/6.jpg"
+  },
+  {
+    "id": 7,
+    "title": "Diskon Spesial Ulang Tahun",
+    "description": "Gratis 1 bulan untuk pendaftar yang berulang tahun di bulan ini.",
+    "duration": "Hanya berlaku untuk bulan ini.",
+    "image": "/img/7.jpg"
+  }
+]
