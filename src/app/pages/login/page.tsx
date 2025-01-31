@@ -19,6 +19,10 @@ export default function LoginPage() {
             return { role: "admin" };
           } else if (email === "member@bosstongym.com") {
             return { role: "member" };
+          } else if (email === "rifkyfrds@gmail.com") {
+            return { role: "member" };
+          } else if (email === "daus@gmail.com") {
+            return { role: "member" };
           } else {
             throw new Error("Email atau password salah.");
           }
@@ -125,7 +129,7 @@ export default function LoginPage() {
             </a>{" "}
             atau{" "}
             <a
-              href="/pages/hubungikami"
+              href="/pages/membership"
               className="text-orange-500 hover:text-orange-600 font-medium"
             >
               Belum Punya Akun?

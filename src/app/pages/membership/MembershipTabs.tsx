@@ -70,7 +70,7 @@ const MembershipTabs = ({ onJoinClick }: { onJoinClick: () => void }) => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-orange-50 to-gray-100">
+    <div className="flex flex-col min-h-screen bg--to-b from-orange-50 to-gray-100">
       <div className="flex-grow max-w-screen-xl mx-auto py-12 px-6">
         {/* Header with Stroke Effect */}
         <header className="text-center mb-10 mt-2">
