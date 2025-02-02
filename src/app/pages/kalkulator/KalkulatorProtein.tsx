@@ -3,18 +3,31 @@
 import { useState } from "react";
 
 const KalkulatorProtein = () => {
+  const [weight, setWeight] = useState<number>(0);
+  const [goal, setGoal] = useState<string>("maintain");
   const [result, setResult] = useState<string | null>(null);
 
-  const calculateProtein = (data: any) => {
-    const { weight, goal } = data;
-    const proteinRequirement = goal === "lose" ? weight * 1.5 : weight * 2;
-    setResult(`${proteinRequirement} gram protein/hari`);
+  const calculateProtein = (weight: number, goal: string) => {
+    let proteinRequirement = 0;
+
+    if (goal === "lose") {
+      proteinRequirement = weight * 1.5;
+    } else if (goal === "gain") {
+      proteinRequirement = weight * 2.2;
+    } else {
+      proteinRequirement = weight * 1.8;
+    }
+
+    setResult(`${proteinRequirement.toFixed(2)} gram protein/hari`);
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const data = { weight: 70, goal: "maintain" };
-    calculateProtein(data);
+    if (weight > 0) {
+      calculateProtein(weight, goal);
+    } else {
+      setResult("Silakan masukkan berat badan yang valid.");
+    }
   };
 
   return (
@@ -25,13 +38,20 @@ const KalkulatorProtein = () => {
           <label className="block text-gray-600">Berat Badan (kg)</label>
           <input
             type="number"
+            value={weight}
+            onChange={(e) => setWeight(parseFloat(e.target.value))}
             className="border rounded-lg w-full p-3 text-gray-700"
             placeholder="Masukkan berat badan"
+            required
           />
         </div>
         <div>
           <label className="block text-gray-600">Sasaran Nutrisi</label>
-          <select className="border rounded-lg w-full p-3 text-gray-700">
+          <select
+            value={goal}
+            onChange={(e) => setGoal(e.target.value)}
+            className="border rounded-lg w-full p-3 text-gray-700"
+          >
             <option value="maintain">Mempertahankan berat badan</option>
             <option value="lose">Menurunkan berat badan</option>
             <option value="gain">Menambah berat badan</option>

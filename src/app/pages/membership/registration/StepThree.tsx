@@ -17,12 +17,13 @@ export default function StepThree({
   const [paymentMethod, setPaymentMethod] = useState<"BCA" | "QRIS" | "">("");
   const [error, setError] = useState("");
 
+  // Fungsi untuk mengonfirmasi pendaftaran
   const handleConfirm = () => {
     if (!paymentMethod) {
       setError("Silakan pilih metode pembayaran");
       return;
     }
-    onNext(paymentMethod); // Kirim metode pembayaran ke Step 4
+    onNext(paymentMethod); // Mengirim metode pembayaran yang dipilih ke langkah berikutnya
   };
 
   return (
@@ -32,6 +33,7 @@ export default function StepThree({
           Konfirmasi Pendaftaran
         </h2>
 
+        {/* Menampilkan detail pendaftaran */}
         <div className="mb-6 p-4 border rounded-xl bg-gray-100">
           <h3 className="text-lg font-semibold text-gray-700 mb-2">
             Detail Pendaftaran
@@ -81,7 +83,7 @@ export default function StepThree({
                   checked={paymentMethod === method}
                   onChange={(e) => {
                     setPaymentMethod(e.target.value as "BCA" | "QRIS");
-                    setError("");
+                    setError(""); // Menghapus pesan error saat memilih metode pembayaran
                   }}
                   className="form-radio text-orange-500"
                 />
@@ -89,17 +91,18 @@ export default function StepThree({
               </label>
             ))}
           </div>
+          {/* Menampilkan pesan error jika metode pembayaran tidak dipilih */}
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>
 
-        {/* Tombol Navigasi */}
+        {/* Tombol Navigasi untuk kembali atau melanjutkan */}
         <div className="flex justify-between">
           <button onClick={onBack} className="text-blue-500 hover:underline">
             Kembali
           </button>
           <button
             onClick={handleConfirm}
-            disabled={!paymentMethod}
+            disabled={!paymentMethod} // Menonaktifkan tombol jika metode pembayaran belum dipilih
             className={`bg-orange-500 text-white py-3 px-8 rounded-xl shadow-md transition-all ${
               !paymentMethod ? "opacity-50 cursor-not-allowed" : "hover:bg-orange-600"
             }`}

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FaUser, FaEnvelope, FaPhone, FaBirthdayCake } from "react-icons/fa";
-import Stepper from "./Stepper"; // ✅ Import Stepper
+import Stepper from "./Stepper"; // Import komponen Stepper
 
 export default function StepOne({ onNext, step }: { onNext: (data: any) => void; step: number }) {
   const [data, setData] = useState({
@@ -25,18 +25,31 @@ export default function StepOne({ onNext, step }: { onNext: (data: any) => void;
     const nameRegex = /^[A-Za-z\s]+$/; 
     const birthYear = new Date(data.birthDate).getFullYear();
 
+    // Validasi nama depan
     if (!nameRegex.test(data.firstName.trim()) || data.firstName.length < 2)
       newErrors.firstName = "Nama depan hanya boleh huruf dan minimal 2 karakter";
+
+    // Validasi nama belakang
     if (!nameRegex.test(data.lastName.trim()) || data.lastName.length < 2)
       newErrors.lastName = "Nama belakang hanya boleh huruf dan minimal 2 karakter";
+
+    // Validasi tanggal lahir
     if (!data.birthDate) {
       newErrors.birthDate = "Tanggal lahir wajib diisi";
     } else if (birthYear > 2011) {
       newErrors.birthDate = "Anda harus berusia minimal 13 tahun (lahir sebelum 2011)";
     }
+
+    // Validasi jenis kelamin
     if (!data.gender) newErrors.gender = "Jenis kelamin wajib dipilih";
+
+    // Validasi email
     if (!emailRegex.test(data.email)) newErrors.email = "Format email tidak valid";
+
+    // Validasi nomor WhatsApp
     if (!phoneRegex.test(data.whatsapp)) newErrors.whatsapp = "Nomor WhatsApp harus diawali 08 dan memiliki 10-13 digit";
+
+    // Validasi persetujuan
     if (!agree) newErrors.agree = "Anda harus menyetujui sebelum melanjutkan";
 
     setErrors(newErrors);
@@ -53,92 +66,91 @@ export default function StepOne({ onNext, step }: { onNext: (data: any) => void;
 
   return (
     <div className="flex flex-col bg-white min-h-screen">
-        <div className="max-w-md mx-auto py-12 px-8 bg-white rounded-3xl shadow-lg">
-          <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Informasi Personal</h2>
+      <div className="max-w-md mx-auto py-12 px-8 bg-white rounded-3xl shadow-lg">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Informasi Personal</h2>
 
-          <form>
-            {[
-              { label: "Nama Depan", name: "firstName", type: "text", icon: <FaUser /> },
-              { label: "Nama Belakang", name: "lastName", type: "text", icon: <FaUser /> },
-              { label: "Tanggal Lahir", name: "birthDate", type: "date", icon: <FaBirthdayCake />, max: maxBirthDate },
-              { label: "Email", name: "email", type: "email", icon: <FaEnvelope /> },
-              { label: "Nomor WhatsApp", name: "whatsapp", type: "tel", icon: <FaPhone /> },
-            ].map(({ label, name, type, icon, max }) => (
-              <div className="mb-6" key={name}>
-                <label className="block text-sm text-gray-700 font-medium mb-2">{label}</label>
-                <div className="relative flex items-center gap-4">
-                  <div className="text-gray-500 text-lg">{icon}</div>
+        <form>
+          {[
+            { label: "Nama Depan", name: "firstName", type: "text", icon: <FaUser /> },
+            { label: "Nama Belakang", name: "lastName", type: "text", icon: <FaUser /> },
+            { label: "Tanggal Lahir", name: "birthDate", type: "date", icon: <FaBirthdayCake />, max: maxBirthDate },
+            { label: "Email", name: "email", type: "email", icon: <FaEnvelope /> },
+            { label: "Nomor WhatsApp", name: "whatsapp", type: "tel", icon: <FaPhone /> },
+          ].map(({ label, name, type, icon, max }) => (
+            <div className="mb-6" key={name}>
+              <label className="block text-sm text-gray-700 font-medium mb-2">{label}</label>
+              <div className="relative flex items-center gap-4">
+                <div className="text-gray-500 text-lg">{icon}</div>
+                <input
+                  type={type}
+                  value={(data as any)[name]}
+                  onChange={(e) => setData({ ...data, [name]: e.target.value })}
+                  max={max}
+                  className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-orange-500 text-gray-800 shadow-sm ${
+                    errors[name] ? "border-red-500" : "border-gray-300"
+                  }`}
+                  placeholder={`Masukkan ${label.toLowerCase()}`}
+                />
+              </div>
+              {errors[name] && <p className="text-red-500 text-sm">{errors[name]}</p>}
+            </div>
+          ))}
+
+          <div className="mb-6">
+            <label className="block text-sm text-gray-700 font-medium mb-2">Jenis Kelamin</label>
+            <div className="flex gap-6">
+              {["Pria", "Wanita"].map((option) => (
+                <label key={option} className="flex items-center gap-2">
                   <input
-                    type={type}
-                    value={(data as any)[name]}
-                    onChange={(e) => setData({ ...data, [name]: e.target.value })}
-                    max={max}
-                    className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-2 focus:ring-orange-500 text-gray-800 shadow-sm ${
-                      errors[name] ? "border-red-500" : "border-gray-300"
-                    }`}
-                    placeholder={`Masukkan ${label.toLowerCase()}`}
+                    type="radio"
+                    value={option}
+                    checked={data.gender === option}
+                    onChange={() => setData({ ...data, gender: option })}
+                    className="form-radio text-orange-500"
                   />
-                </div>
-                {errors[name] && <p className="text-red-500 text-sm">{errors[name]}</p>}
-              </div>
-            ))}
-
-            <div className="mb-6">
-              <label className="block text-sm text-gray-700 font-medium mb-2">Jenis Kelamin</label>
-              <div className="flex gap-6">
-                {["Pria", "Wanita"].map((option) => (
-                  <label key={option} className="flex items-center gap-2">
-                    <input
-                      type="radio"
-                      value={option}
-                      checked={data.gender === option}
-                      onChange={() => setData({ ...data, gender: option })}
-                      className="form-radio text-orange-500"
-                    />
-                    {option}
-                  </label>
-                ))}
-              </div>
-              {errors.gender && <p className="text-red-500 text-sm">{errors.gender}</p>}
+                  {option}
+                </label>
+              ))}
             </div>
+            {errors.gender && <p className="text-red-500 text-sm">{errors.gender}</p>}
+          </div>
 
-            <div className="mb-6">
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={data.isStudent}
-                  onChange={(e) => setData({ ...data, isStudent: e.target.checked })}
-                  className="form-checkbox text-orange-500"
-                />
-                Saya seorang pelajar
-              </label>
-            </div>
+          <div className="mb-6">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={data.isStudent}
+                onChange={(e) => setData({ ...data, isStudent: e.target.checked })}
+                className="form-checkbox text-orange-500"
+              />
+              Saya seorang pelajar
+            </label>
+          </div>
 
-            <div className="mb-6">
-              <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={agree}
-                  onChange={(e) => setAgree(e.target.checked)}
-                  className="form-checkbox text-orange-500"
-                />
-                Saya menyetujui bahwa informasi yang saya isi sudah benar
-              </label>
-              {errors.agree && <p className="text-red-500 text-sm">{errors.agree}</p>}
-            </div>
+          <div className="mb-6">
+            <label className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                checked={agree}
+                onChange={(e) => setAgree(e.target.checked)}
+                className="form-checkbox text-orange-500"
+              />
+              Saya menyetujui bahwa informasi yang saya isi sudah benar
+            </label>
+            {errors.agree && <p className="text-red-500 text-sm">{errors.agree}</p>}
+          </div>
 
-            <div className="text-center mb-6">
-              <button
-                type="button"
-                onClick={handleSubmit}
-                className="w-full bg-orange-500 text-white py-3 px-8 rounded-xl shadow-md hover:bg-orange-600 transition-all"
-              >
-                Lanjut
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>      
-
+          <div className="text-center mb-6">
+            <button
+              type="button"
+              onClick={handleSubmit}
+              className="w-full bg-orange-500 text-white py-3 px-8 rounded-xl shadow-md hover:bg-orange-600 transition-all"
+            >
+              Lanjut
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 }

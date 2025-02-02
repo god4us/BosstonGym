@@ -6,22 +6,24 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false); // Indikator loading
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true); // Mulai loading
+    setError(""); // Reset pesan error
 
-    // Simulasi respons login sementara
     try {
+      if (!email || !password) {
+        throw new Error("Email dan password wajib diisi.");
+      }
+
       const mockResponse = {
         ok: true,
         json: async () => {
-          if (email === "admin@bosstongym.com") {
+          if (email === "admin@bosstongym.com" && password === "admin123") {
             return { role: "admin" };
-          } else if (email === "member@bosstongym.com") {
-            return { role: "member" };
-          } else if (email === "rifkyfrds@gmail.com") {
-            return { role: "member" };
-          } else if (email === "daus@gmail.com") {
+          } else if (email === "member@bosstongym.com" && password === "member123") {
             return { role: "member" };
           } else {
             throw new Error("Email atau password salah.");
@@ -41,16 +43,17 @@ export default function LoginPage() {
       } else if (data.role === "member") {
         window.location.href = "/panel/member";
       } else {
-        throw new Error("Peran tidak dikenal.");
+        throw new Error("Peran tidak dikenali.");
       }
     } catch (err: any) {
       setError(err.message);
+    } finally {
+      setIsLoading(false); // Selesai loading
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      {/* Tombol kembali ke halaman utama */}
       <div className="mb-6">
         <a
           href="/"
@@ -60,27 +63,22 @@ export default function LoginPage() {
         </a>
       </div>
 
-      {/* Kontainer Form */}
       <form
         onSubmit={handleLogin}
         className="bg-white p-8 rounded-lg shadow-lg w-96"
       >
-        {/* Logo */}
         <div className="flex justify-center mb-6">
           <img src="/img/logo.png" alt="Logo" className="w-20 h-20 object-contain" />
         </div>
 
-        {/* Judul Form */}
         <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">
           Login
         </h2>
 
-        {/* Error Message */}
         {error && (
           <p className="text-red-500 text-sm text-center mb-4">{error}</p>
         )}
 
-        {/* Email Input */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700">
             Email
@@ -95,7 +93,6 @@ export default function LoginPage() {
           />
         </div>
 
-        {/* Password Input */}
         <div className="mb-6">
           <label className="block text-sm font-medium text-gray-700">
             Password
@@ -110,15 +107,18 @@ export default function LoginPage() {
           />
         </div>
 
-        {/* Tombol Login */}
         <button
           type="submit"
-          className="w-full bg-orange-500 text-white py-2 px-4 rounded-md hover:bg-orange-600 shadow-md"
+          disabled={isLoading}
+          className={`w-full py-2 px-4 rounded-md shadow-md transition-all ${
+            isLoading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-orange-500 text-white hover:bg-orange-600"
+          }`}
         >
-          Login
+          {isLoading ? "Memproses..." : "Login"}
         </button>
 
-        {/* Lupa Password / Belum Punya Akun */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             <a

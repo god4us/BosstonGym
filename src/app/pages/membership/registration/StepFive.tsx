@@ -10,7 +10,7 @@ export default function StepFive({ data }: { data: any }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowLoginButton(true);
-    }, 15000); // ⏳ Tombol login muncul setelah 15 detik
+    }, 15000); // Tombol login akan muncul setelah 15 detik
     return () => clearTimeout(timer);
   }, []);
 
@@ -21,7 +21,7 @@ export default function StepFive({ data }: { data: any }) {
         {/* Ucapan Selamat */}
         <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
           Selamat, <span className="text-orange-500">{data.firstName} {data.lastName}</span>! <br />
-          Anda kini resmi menjadi <span className="text-green-600">Member BosstonGym</span> 🎉
+          Anda kini resmi menjadi <span className="text-green-600">Member BosstonGym</span>
         </h2>
 
         {/* Kartu Member */}
@@ -47,11 +47,11 @@ export default function StepFive({ data }: { data: any }) {
             Password sementara: <span className="bg-gray-200 px-4 py-1 rounded">{data.email.slice(0, 4)}1234</span>
           </p>
           <p className="text-sm text-red-500 mt-2">
-            ⚠ Segera ganti password Anda setelah login ⚠ 
+            Segera ganti password Anda setelah login
           </p>
         </div>
 
-        {/* ⏳ Tombol Login Muncul setelah 15 Detik */}
+        {/* Tombol Login Muncul setelah 15 Detik */}
         <div className="mt-6 flex justify-center">
           {showLoginButton && (
             <button

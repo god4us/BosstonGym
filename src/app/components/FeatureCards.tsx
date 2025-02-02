@@ -7,13 +7,12 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const FeatureCards = () => {
   const router = useRouter();
   
-  // Gambar blog dan promo, jika data diambil dari API atau JSON
   const blogImages = [
     "/img/1.jpg", 
     "/img/2.jpg", 
     "/img/3.jpg", 
     "/img/4.jpg", 
-    "/img/5.jpg" // Menambah gambar
+    "/img/5.jpg"
   ];
 
   const promoImages = [
@@ -21,33 +20,24 @@ const FeatureCards = () => {
     "/img/7.jpg", 
     "/img/8.jpg", 
     "/img/9.jpg", 
-    "/img/10.jpg" // Menambah gambar
+    "/img/10.jpg"
   ];
 
   const [blogImageIndex, setBlogImageIndex] = useState(0);
-  const [promoImageIndex, setPromoImageIndex] = useState(0);
 
-  // Mengatur interval untuk gambar blog dan promo secara terpisah
   useEffect(() => {
     const blogTimer = setInterval(() => {
       setBlogImageIndex((prev) => (prev + 1) % blogImages.length);
-    }, 4500); // Setiap 4.5 detik gambar blog berganti
+    }, 4500);
 
-    const promoTimer = setInterval(() => {
-      setPromoImageIndex((prev) => (prev + 1) % promoImages.length);
-    }, 5500); // Setiap 5.5 detik gambar promo berganti
-
-    return () => {
-      clearInterval(blogTimer);
-      clearInterval(promoTimer);
-    };
-  }, [blogImages.length, promoImages.length]);
+    return () => clearInterval(blogTimer);
+  }, [blogImages.length]);
 
   const features = [
     {
       title: "Blog",
       description: "Temukan informasi terbaru seputar kesehatan dan kebugaran.",
-      images: blogImages, // Menggunakan array gambar blog
+      images: blogImages,
       link: "/pages/blog",
     },
     {
@@ -59,7 +49,7 @@ const FeatureCards = () => {
     {
       title: "Promosi",
       description: "Manfaatkan penawaran menarik untuk perjalanan kebugaran Anda.",
-      images: promoImages, // Menggunakan array gambar promo
+      images: promoImages,
       link: "/pages/promosi",
     },
     {
@@ -122,17 +112,13 @@ const FeatureCards = () => {
             <div
               className="overflow-hidden rounded-lg shadow-lg transform transition-all duration-500 h-[300px] bg-cover bg-center group-hover:scale-105"
               style={{
-                backgroundImage: `url(${feature.images ? feature.images[blogImageIndex] : feature.image})`, // Menampilkan gambar sesuai index
+                backgroundImage: `url(${feature.images ? feature.images[blogImageIndex] : feature.image})`,
               }}
             >
-              {/* Container untuk Judul dan Deskripsi */}
               <div className="absolute inset-0 flex flex-col justify-end p-4 bg-gradient-to-t from-black via-transparent to-transparent group-hover:opacity-80 transition-opacity duration-500">
-                {/* Judul yang bergerak ke atas saat hover */}
                 <h3 className="font-heading text-lg font-bold text-white group-hover:translate-y-8 group-hover:text-orange-500 transition-all duration-300 ease-in-out">
                   {feature.title}
                 </h3>
-
-                {/* Deskripsi yang hilang saat hover */}
                 <p className="font-body text-sm text-gray-200 group-hover:opacity-0 group-hover:translate-y-4 transition-all duration-300 ease-in-out">
                   {feature.description}
                 </p>

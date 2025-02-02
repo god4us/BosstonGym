@@ -3,30 +3,38 @@
 import { useState } from "react";
 
 const KalkulatorKalori = () => {
+  const [age, setAge] = useState<number | null>(null);
+  const [weight, setWeight] = useState<number | null>(null);
+  const [height, setHeight] = useState<number | null>(null);
+  const [gender, setGender] = useState<string>("pria");
+  const [activityLevel, setActivityLevel] = useState<number>(1);
+  const [goal, setGoal] = useState<string>("maintain");
   const [result, setResult] = useState<string | null>(null);
 
-  const calculateCalories = (data: any) => {
-    const { age, weight, height, gender, activityLevel, goal } = data;
-    const BMR =
-      gender === "pria"
-        ? 10 * weight + 6.25 * height - 5 * age + 5
-        : 10 * weight + 6.25 * height - 5 * age - 161;
-    const dailyCalories =
-      BMR * (1.2 + (activityLevel - 1) * 0.175);
-    setResult(`${Math.round(dailyCalories)} kalori/hari`);
+  const calculateCalories = () => {
+    if (age && weight && height && gender) {
+      const BMR =
+        gender === "pria"
+          ? 10 * weight + 6.25 * height - 5 * age + 5
+          : 10 * weight + 6.25 * height - 5 * age - 161;
+
+      const activityMultiplier = 1.2 + (activityLevel - 1) * 0.175;
+      let dailyCalories = BMR * activityMultiplier;
+
+      if (goal === "lose-light") dailyCalories -= 250;
+      else if (goal === "lose-medium") dailyCalories -= 500;
+      else if (goal === "lose-heavy") dailyCalories -= 750;
+      else if (goal === "gain") dailyCalories += 300;
+
+      setResult(`${Math.round(dailyCalories)} kalori/hari`);
+    } else {
+      setResult("Silakan isi semua data dengan benar.");
+    }
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const data = {
-      age: 25,
-      weight: 70,
-      height: 175,
-      gender: "pria",
-      activityLevel: 3,
-      goal: "maintain",
-    };
-    calculateCalories(data);
+    calculateCalories();
   };
 
   return (
@@ -37,8 +45,12 @@ const KalkulatorKalori = () => {
           <label className="block text-gray-600">Umur</label>
           <input
             type="number"
+            value={age || ""}
+            onChange={(e) => setAge(parseInt(e.target.value))}
             className="border rounded-lg w-full p-3 text-gray-700"
             placeholder="Masukkan umur"
+            min="1"
+            required
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -46,16 +58,24 @@ const KalkulatorKalori = () => {
             <label className="block text-gray-600">Tinggi Badan (cm)</label>
             <input
               type="number"
+              value={height || ""}
+              onChange={(e) => setHeight(parseFloat(e.target.value))}
               className="border rounded-lg w-full p-3 text-gray-700"
               placeholder="Masukkan tinggi badan"
+              min="1"
+              required
             />
           </div>
           <div>
             <label className="block text-gray-600">Berat Badan (kg)</label>
             <input
               type="number"
+              value={weight || ""}
+              onChange={(e) => setWeight(parseFloat(e.target.value))}
               className="border rounded-lg w-full p-3 text-gray-700"
               placeholder="Masukkan berat badan"
+              min="1"
+              required
             />
           </div>
         </div>
@@ -63,18 +83,36 @@ const KalkulatorKalori = () => {
           <label className="block text-gray-600">Jenis Kelamin</label>
           <div className="flex gap-4">
             <label>
-              <input type="radio" name="gender" value="pria" className="mr-2" />
+              <input
+                type="radio"
+                name="gender"
+                value="pria"
+                checked={gender === "pria"}
+                onChange={() => setGender("pria")}
+                className="mr-2"
+              />
               Pria
             </label>
             <label>
-              <input type="radio" name="gender" value="wanita" className="mr-2" />
+              <input
+                type="radio"
+                name="gender"
+                value="wanita"
+                checked={gender === "wanita"}
+                onChange={() => setGender("wanita")}
+                className="mr-2"
+              />
               Wanita
             </label>
           </div>
         </div>
         <div>
           <label className="block text-gray-600">Tingkat Aktivitas Olahraga</label>
-          <select className="border rounded-lg w-full p-3 text-gray-700">
+          <select
+            value={activityLevel}
+            onChange={(e) => setActivityLevel(parseInt(e.target.value))}
+            className="border rounded-lg w-full p-3 text-gray-700"
+          >
             <option value="1">Sedikit atau tidak sama sekali</option>
             <option value="2">Olahraga ringan 1-3 kali per minggu</option>
             <option value="3">Olahraga sedang 3-5 kali per minggu</option>
@@ -84,7 +122,11 @@ const KalkulatorKalori = () => {
         </div>
         <div>
           <label className="block text-gray-600">Sasaran Nutrisi</label>
-          <select className="border rounded-lg w-full p-3 text-gray-700">
+          <select
+            value={goal}
+            onChange={(e) => setGoal(e.target.value)}
+            className="border rounded-lg w-full p-3 text-gray-700"
+          >
             <option value="maintain">Mempertahankan berat badan</option>
             <option value="lose-light">Penurunan berat badan ringan</option>
             <option value="lose-medium">Penurunan berat badan sedang</option>

@@ -1,12 +1,11 @@
-"use client"; // Menandai sebagai client component
+"use client";
 
 import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
 
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const isHomepage = typeof window !== "undefined" && window.location.pathname === "/";
 
   // Tutup dropdown saat klik di luar
   useEffect(() => {
@@ -22,38 +21,52 @@ export default function Navbar() {
   }, []);
 
   return (
-    <nav className="bg-white shadow-md px-6 py-3 flex items-center">
-      {/* Placeholder Logo */}
-      <div className="flex-none text-lg font-semibold text-black-300">
-        Selfservice-
-      </div>
-      <div className="flex-none text-lg font-semibold text-orange-600">
-        BosstonGym
+    <nav className="bg-white shadow-md px-6 py-3 flex items-center justify-between">
+      {/* Logo */}
+      <div className="text-lg font-semibold text-black-700">
+        Selfservice-<span className="text-orange-600">BosstonGym</span>
       </div>
 
-      {/* Links */}
-      <div className="flex-grow ml-8 flex items-center gap-4">
-        <a
-          href={isHomepage ? "/" : "/"}
-          className="text-gray-800 hover:text-orange-600 font-medium text-sm"
-        >
+      {/* Navigation Links */}
+      <div className="flex items-center gap-6">
+        <Link href="/" className="text-gray-800 hover:text-orange-600 font-medium text-sm">
           Beranda
-        </a>
-        <a
-          href={isHomepage ? "pages/tentangkami" : "/pages/tentangkami"}
-          className="text-gray-800 hover:text-orange-600 font-medium text-sm"
-        >
+        </Link>
+        <Link href="/pages/tentangkami" className="text-gray-800 hover:text-orange-600 font-medium text-sm">
+          Tentang Kami
+        </Link>
+        <Link href="/pages/faq" className="text-gray-800 hover:text-orange-600 font-medium text-sm">
           FAQ
-        </a>
+        </Link>
+
+        {/* Dropdown Menu (Optional) */}
+        <div className="relative" ref={dropdownRef}>
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="text-gray-800 hover:text-orange-600 font-medium text-sm"
+          >
+            Menu
+          </button>
+          {isDropdownOpen && (
+            <div className="absolute right-0 mt-2 bg-white shadow-md rounded-md p-2 w-48 z-50">
+              <Link href="/pages/profile" className="block px-4 py-2 text-gray-800 hover:bg-orange-100 rounded">
+                Profil
+              </Link>
+              <Link href="/pages/settings" className="block px-4 py-2 text-gray-800 hover:bg-orange-100 rounded">
+                Pengaturan
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* Tombol Logout */}
-      <div className="flex-none">
-        <a href={isHomepage ? "pages/login" : "/pages/login"}>
+      {/* Logout Button */}
+      <div>
+        <Link href="/pages/login" aria-label="Logout">
           <button className="bg-orange-600 hover:bg-orange-700 text-white py-2 px-4 rounded-full shadow-lg text-sm transition-all">
             Logout
           </button>
-        </a>
+        </Link>
       </div>
     </nav>
   );

@@ -3,18 +3,34 @@
 import { useState } from "react";
 
 const KalkulatorIMT = () => {
+  const [weight, setWeight] = useState<number | null>(null);
+  const [height, setHeight] = useState<number | null>(null);
   const [result, setResult] = useState<string | null>(null);
 
-  const calculateIMT = (data: any) => {
-    const { weight, height } = data;
+  const calculateIMT = (weight: number, height: number) => {
     const imt = weight / ((height / 100) * (height / 100));
-    setResult(`IMT: ${imt.toFixed(2)} (Kategori: ${imt < 18.5 ? "Kekurangan Berat Badan" : imt < 24.9 ? "Normal" : "Kelebihan Berat Badan"})`);
+    let category = "";
+
+    if (imt < 18.5) {
+      category = "Kekurangan Berat Badan";
+    } else if (imt < 24.9) {
+      category = "Normal";
+    } else if (imt < 29.9) {
+      category = "Kelebihan Berat Badan";
+    } else {
+      category = "Obesitas";
+    }
+
+    setResult(`IMT: ${imt.toFixed(2)} (Kategori: ${category})`);
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const data = { weight: 70, height: 175 };
-    calculateIMT(data);
+    if (weight && height) {
+      calculateIMT(weight, height);
+    } else {
+      setResult("Silakan isi berat badan dan tinggi badan dengan benar.");
+    }
   };
 
   return (
@@ -25,16 +41,24 @@ const KalkulatorIMT = () => {
           <label className="block text-gray-600">Berat Badan (kg)</label>
           <input
             type="number"
+            value={weight || ""}
+            onChange={(e) => setWeight(parseFloat(e.target.value))}
             className="border rounded-lg w-full p-3 text-gray-700"
             placeholder="Masukkan berat badan"
+            min="1"
+            required
           />
         </div>
         <div>
           <label className="block text-gray-600">Tinggi Badan (cm)</label>
           <input
             type="number"
+            value={height || ""}
+            onChange={(e) => setHeight(parseFloat(e.target.value))}
             className="border rounded-lg w-full p-3 text-gray-700"
             placeholder="Masukkan tinggi badan"
+            min="1"
+            required
           />
         </div>
         <button

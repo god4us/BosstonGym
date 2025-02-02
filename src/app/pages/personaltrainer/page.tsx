@@ -2,7 +2,7 @@
 
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
 
@@ -12,8 +12,7 @@ const trainers = [
     id: 1,
     name: "Andi Setiawan",
     role: "Pelatih Utama",
-    description:
-      "Berpengalaman dalam membimbing klien mencapai tujuan kebugaran mereka.",
+    description: "Berpengalaman dalam membimbing klien mencapai tujuan kebugaran mereka.",
     icons: [
       { platform: "Instagram", link: "https://instagram.com/andi_setiawan", icon: <FaInstagram /> },
       { platform: "WhatsApp", link: "https://wa.me/1234567890", icon: <FaWhatsapp /> },
@@ -23,8 +22,7 @@ const trainers = [
     id: 2,
     name: "Siti Rahmawati",
     role: "Ahli Gizi",
-    description:
-      "Menyediakan panduan nutrisi untuk mendukung program latihan.",
+    description: "Menyediakan panduan nutrisi untuk mendukung program latihan.",
     icons: [
       { platform: "Instagram", link: "https://instagram.com/siti_rahmawati", icon: <FaInstagram /> },
       { platform: "WhatsApp", link: "https://wa.me/0987654321", icon: <FaWhatsapp /> },
@@ -34,8 +32,7 @@ const trainers = [
     id: 3,
     name: "Budi Santoso",
     role: "Pelatih Kebugaran",
-    description:
-      "Spesialis dalam program kebugaran kelompok dan motivasi.",
+    description: "Spesialis dalam program kebugaran kelompok dan motivasi.",
     icons: [
       { platform: "Instagram", link: "https://instagram.com/budi_santoso", icon: <FaInstagram /> },
       { platform: "WhatsApp", link: "https://wa.me/1122334455", icon: <FaWhatsapp /> },
@@ -45,8 +42,7 @@ const trainers = [
     id: 4,
     name: "Diana Purnama",
     role: "Pelatih Yoga",
-    description:
-      "Mengajarkan teknik yoga untuk keseimbangan tubuh dan pikiran.",
+    description: "Mengajarkan teknik yoga untuk keseimbangan tubuh dan pikiran.",
     icons: [
       { platform: "Instagram", link: "https://instagram.com/diana_purnama", icon: <FaInstagram /> },
       { platform: "WhatsApp", link: "https://wa.me/5566778899", icon: <FaWhatsapp /> },
@@ -56,8 +52,7 @@ const trainers = [
     id: 5,
     name: "Eko Prasetyo",
     role: "Pelatih Fisik",
-    description:
-      "Ahli dalam meningkatkan kekuatan dan daya tahan tubuh.",
+    description: "Ahli dalam meningkatkan kekuatan dan daya tahan tubuh.",
     icons: [
       { platform: "Instagram", link: "https://instagram.com/eko_prasetyo", icon: <FaInstagram /> },
       { platform: "WhatsApp", link: "https://wa.me/9988776655", icon: <FaWhatsapp /> },
@@ -67,6 +62,11 @@ const trainers = [
 
 export default function PersonalTrainerPage() {
   const [activeFAQ, setActiveFAQ] = useState<number | null>(null);
+  const [hasAnimated, setHasAnimated] = useState(false);
+
+  useEffect(() => {
+    setHasAnimated(true);
+  }, []);
 
   const toggleFAQ = (index: number) => {
     setActiveFAQ(activeFAQ === index ? null : index);
@@ -119,9 +119,10 @@ export default function PersonalTrainerPage() {
             {trainers.map((trainer, idx) => (
               <div
                 key={trainer.id}
-                className={`flex-shrink-0 w-64 rounded-lg bg-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105 
-                  opacity-0 translate-x-10 duration-1000 ease-out animate-slide-in`}
-                style={{ animationDelay: `${idx * 0.5}s` }}
+                className={`flex-shrink-0 w-64 rounded-lg bg-white shadow-lg hover:shadow-xl transition-all transform hover:scale-105 ${
+                  hasAnimated ? "animate-slide-in" : ""
+                }`}
+                style={{ animationDelay: `${idx * 0.3}s` }}
               >
                 <div className="w-full h-64 bg-cover bg-center rounded-t-lg" style={{ backgroundImage: `url('/img/1.jpg')` }}></div>
                 <div className="p-6 text-center">
@@ -133,6 +134,9 @@ export default function PersonalTrainerPage() {
                       <a
                         key={index}
                         href={icon.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={icon.platform}
                         className="text-gray-800 hover:text-orange-500 transition transform hover:scale-110"
                       >
                         {icon.icon}
@@ -162,7 +166,7 @@ export default function PersonalTrainerPage() {
                   <span className="text-sm font-semibold text-gray-500">{activeFAQ === index ? "−" : "+"}</span>
                 </div>
                 {activeFAQ === index && (
-                  <p className="text-sm text-gray-500">{faq.answer}</p>
+                  <p className="text-sm text-gray-500 mt-2">{faq.answer}</p>
                 )}
               </div>
             ))}
@@ -173,6 +177,8 @@ export default function PersonalTrainerPage() {
         <div className="text-center mt-8">
           <a
             href="https://wa.me/1234567890"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-block bg-green-500 text-white py-3 px-6 rounded-lg shadow-md hover:bg-green-600 transition text-lg font-medium"
           >
             Hubungi Kami di WhatsApp
@@ -189,13 +195,13 @@ export default function PersonalTrainerPage() {
         }
 
         @keyframes slide-in {
-          0% {
+          from {
             opacity: 0;
-            transform: translateX(20px);
+            transform: translateY(20px);
           }
-          100% {
+          to {
             opacity: 1;
-            transform: translateX(0);
+            transform: translateY(0);
           }
         }
 

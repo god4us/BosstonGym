@@ -3,24 +3,24 @@
 import {
   FaFacebookF,
   FaInstagram,
-  FaLinkedinIn,
   FaYoutube,
   FaTwitter,
-} from "react-icons/fa";
-import Link from "next/link"; // Import Link dari next/link
-import Image from "next/image"; // Import Image dari next/image
+} from "react-icons/fa"; // Menghapus FaLinkedinIn
+import Link from "next/link"; 
+import Image from "next/image"; 
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-100 py-4 font-body"> {/* Tambahkan font-body untuk seluruh footer */}
+    <footer className="bg-gray-100 py-4 font-body">
       <div className="max-w-screen-xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+        
         {/* Logo di pojok kiri */}
         <div className="flex items-center mb-2 md:mb-0">
           <Image
-            src="/img/logo.png" // Path menuju logo Anda
+            src="/img/logo.png"
             alt="Logo BosstonGym"
-            width={60} // Perkecil ukuran logo
-            height={60} // Perkecil ukuran logo
+            width={60}
+            height={60}
             className="object-contain"
           />
         </div>

@@ -1,13 +1,19 @@
 "use client";
 
-import { use } from "react";
 import Navbar from "../../../components/Navbar";
 import Footer from "../../../components/Footer";
-import { FaArrowLeft } from "react-icons/fa"; // Import ikon panah kiri
-import promotions from "../promotions.json"; // Data dari file promotions.json
+import Link from "next/link";
+import { FaArrowLeft } from "react-icons/fa";
+import promotions from "../promotions.json";
 
-export default function PromotionDetailPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = use(params); // Unwrap params Promise menggunakan React.use()
+interface PromotionDetailPageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default function PromotionDetailPage({ params }: PromotionDetailPageProps) {
+  const { id } = params; // Langsung akses ID dari params
 
   const promo = promotions.find((item) => item.id.toString() === id);
 
@@ -21,13 +27,13 @@ export default function PromotionDetailPage({ params }: { params: Promise<{ id: 
               <img src="/img/logo.png" alt="Not Found" className="w-24 h-24 mx-auto mb-4" />
             </div>
             <h1 className="text-3xl font-semibold text-gray-800 mb-4">Promosi Tidak Ditemukan</h1>
-            <p className="text-lg text-gray-500 mb-6">Sepertinya promosi yang Anda cari sudah tidak tersedia. Jangan khawatir, kami memiliki banyak promo menarik lainnya!</p>
-            <a href="/pages/promosi">
+            <p className="text-lg text-gray-500 mb-6">Sepertinya promosi yang Anda cari tidak tersedia.</p>
+            <Link href="/pages/promosi">
               <button className="flex items-center justify-center bg-orange-500 text-white py-3 px-6 rounded-md hover:bg-orange-600 transition-all">
                 <FaArrowLeft className="w-5 h-5 mr-2" />
-                Halaman Promosi
+                Kembali ke Halaman Promosi
               </button>
-            </a>
+            </Link>
           </div>
         </main>
         <Footer />
@@ -35,44 +41,60 @@ export default function PromotionDetailPage({ params }: { params: Promise<{ id: 
     );
   }
 
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Link berhasil disalin ke clipboard!");
+    } catch (err) {
+      alert("Gagal menyalin link. Silakan coba lagi.");
+    }
+  };
+
   return (
     <div>
       <Navbar />
       <main className="max-w-screen-lg mx-auto px-6 py-12">
         <div className="bg-white rounded-lg shadow-lg p-6 mb-8">
-          <a href="/pages/promosi">
-            <button className="flex items-center space-x-2 text-orange-500 mb-4 hover:text-orange-600 transition-all">
-              <FaArrowLeft className="w-5 h-5" />
-              <span className="sr-only">Back to Promotions</span> {/* Menyembunyikan teks untuk aksesibilitas */}
+          <Link href="/pages/promosi">
+            <button className="flex items-center text-orange-500 mb-4 hover:text-orange-600 transition-all" aria-label="Kembali ke daftar promosi">
+              <FaArrowLeft className="w-5 h-5 mr-2" />
+              Kembali ke Promosi
             </button>
-          </a>
+          </Link>
+
           <h1 className="text-4xl font-bold text-orange-500 mb-4">{promo.title}</h1>
 
-          {/* Gambar Promo */}
           <div
             className="w-full h-96 bg-cover bg-center rounded-lg mb-6"
             style={{
               backgroundImage: `url(${promo.image || "/images/default-promo.jpg"})`,
             }}
+            aria-label={promo.title}
           ></div>
 
-          {/* Deskripsi Promo */}
           <p className="text-gray-700 mb-4">{promo.description}</p>
           <p className="text-sm text-gray-500 mb-6">{promo.duration}</p>
 
-          {/* Share and Copy Link */}
           <div className="flex gap-4 mt-8">
             <button
-              onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(`Check out this promotion: ${promo.title} - ${window.location.href}`)}`, "_blank")}
+              onClick={() =>
+                window.open(
+                  `https://wa.me/?text=${encodeURIComponent(`Lihat promosi ini: ${promo.title} - ${window.location.href}`)}`,
+                  "_blank"
+                )
+              }
               className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-all"
+              aria-label="Bagikan ke WhatsApp"
             >
-              Share to WhatsApp
+              Bagikan ke WhatsApp
             </button>
+
             <button
-              onClick={() => {navigator.clipboard.writeText(window.location.href); alert("Link copied to clipboard!");}}
+              onClick={handleCopyLink}
               className="bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition-all"
+              aria-label="Salin link promosi"
             >
-              Copy Link
+              Salin Link
             </button>
           </div>
         </div>

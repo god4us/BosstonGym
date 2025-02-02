@@ -21,18 +21,18 @@ export default function BlogSpot() {
   // Data yang akan ditampilkan berdasarkan jumlah item yang harus ditampilkan
   const displayedData = filteredData.slice(0, itemsToShow);
 
-  // Handler untuk tombol "Lihat Selengkapnya"
+  // Fungsi untuk menambah jumlah data yang ditampilkan saat tombol "Lihat Selengkapnya" diklik
   const handleLoadMore = () => {
-    setLoading(true); // Tampilkan loading
+    setLoading(true); // Tampilkan indikator loading
     setTimeout(() => {
       setItemsToShow((prev) => prev + 6); // Tambah jumlah item yang ditampilkan
-      setLoading(false); // Sembunyikan loading setelah data ditambahkan
-    }, 1000); // Simulasi waktu loading
+      setLoading(false); // Sembunyikan indikator loading setelah data ditambahkan
+    }, 1000); // Simulasi waktu loading selama 1 detik
   };
 
   return (
     <div className="max-w-screen-xl mx-auto px-4 py-8 font-body">
-      {/* Tombol Filter */}
+      {/* Tombol untuk memfilter kategori blog */}
       <div className="flex gap-4 justify-center mb-6">
         {filters.map((filter) => (
           <button
@@ -52,7 +52,7 @@ export default function BlogSpot() {
         ))}
       </div>
 
-      {/* Grid Card Blog */}
+      {/* Menampilkan daftar blog dalam bentuk grid */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {displayedData.map((blog, index) => (
           <div
@@ -80,14 +80,14 @@ export default function BlogSpot() {
         ))}
       </section>
 
-      {/* Indikator Loading */}
+      {/* Menampilkan indikator loading saat data sedang dimuat */}
       {loading && (
         <div className="flex justify-center mt-6">
           <div className="text-orange-500 font-bold animate-pulse">Loading...</div>
         </div>
       )}
 
-      {/* Tombol "Lihat Selengkapnya" */}
+      {/* Tombol untuk menampilkan lebih banyak data */}
       {!loading && itemsToShow < filteredData.length && (
         <div className="flex justify-center mt-6">
           <button

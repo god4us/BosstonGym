@@ -2,7 +2,7 @@
 
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Head from "next/head";
 
 const faqData: Record<string, { question: string; answer: string }[]> = {
@@ -57,15 +57,15 @@ const FaqPage = () => {
     setActiveFAQ(activeFAQ === index ? null : index);
   };
 
-  // Menunggu 20 detik sebelum menampilkan CTA
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowCTA(true);
-    }, 20000); // 20 detik
-
-    // Bersihkan timeout jika komponen tidak lagi aktif
+    }, 20000);
     return () => clearTimeout(timer);
   }, []);
+
+  // Optimasi untuk memilih data FAQ sesuai kategori
+  const selectedFAQs = useMemo(() => faqData[activeCategory] || [], [activeCategory]);
 
   return (
     <div>
@@ -78,7 +78,6 @@ const FaqPage = () => {
 
       <Navbar />
       <main className="max-w-screen-xl mx-auto px-6 py-12">
-        {/* Hero Section */}
         <section className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-gray-800 mb-6 tracking-wide">
             Pusat Bantuan
@@ -88,7 +87,6 @@ const FaqPage = () => {
           </p>
         </section>
 
-        {/* Kategori FAQ */}
         <section className="text-center mb-12">
           <div className="flex flex-wrap justify-center gap-6">
             {[
@@ -104,22 +102,21 @@ const FaqPage = () => {
                     ? "bg-orange-500 text-white scale-105"
                     : "bg-gray-100 text-gray-700 hover:bg-orange-100 hover:shadow-lg"
                 }`}
-                onClick={() => setActiveCategory(item.key)}
+                onClick={() => setActiveCategory(item.key as keyof typeof faqData)}
               >
                 <span className="text-4xl mb-3">{item.icon}</span>
-                <span className="text-lg font-normal">{item.label}</span> {/* Ganti font-semibold menjadi font-normal */}
+                <span className="text-lg font-normal">{item.label}</span>
               </button>
             ))}
           </div>
         </section>
 
-        {/* FAQ */}
         <section className="mt-12">
           <h2 className="text-xl font-heading font-extrabold text-center text-gray-800 mb-6">
             Pertanyaan Umum
           </h2>
           <div className="space-y-4">
-            {faqData[activeCategory].map((faq, index) => (
+            {selectedFAQs.map((faq, index) => (
               <div
                 key={index}
                 className="p-6 border rounded-lg shadow-lg bg-gray-50 hover:bg-gray-100 cursor-pointer transition"
@@ -127,24 +124,22 @@ const FaqPage = () => {
               >
                 <div className="flex justify-between items-center">
                   <h3 className="text-sm font-medium text-gray-800">{faq.question}</h3>
-                  <span className="text-sm font-semibold text-gray-500">{activeFAQ === index ? "−" : "+"}</span>
+                  <span className="text-sm font-semibold text-gray-500">
+                    {activeFAQ === index ? "−" : "+"}
+                  </span>
                 </div>
                 {activeFAQ === index && (
-                  <p className="text-sm text-gray-500">{faq.answer}</p>
+                  <p className="text-sm text-gray-500 mt-2">{faq.answer}</p>
                 )}
               </div>
             ))}
           </div>
         </section>
 
-        {/* Call to Action */}
         {showCTA && (
           <section
-            className="text-center mt-12 opacity-0 transform transition-opacity duration-1000"
-            style={{
-              opacity: showCTA ? 1 : 0,
-              transform: showCTA ? "translateY(0)" : "translateY(20px)",
-            }}
+            className="text-center mt-12 transition-opacity duration-1000 ease-in-out"
+            style={{ opacity: showCTA ? 1 : 0 }}
           >
             <h3 className="text-xl font-semibold mb-4 text-gray-800">
               Tidak menemukan jawaban Anda?

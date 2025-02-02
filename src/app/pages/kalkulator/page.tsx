@@ -9,9 +9,10 @@ import KalkulatorProtein from "./KalkulatorProtein";
 import KalkulatorLemak from "./KalkulatorLemak";
 import KalkulatorIMT from "./KalkulatorIMT";
 
+type CalculatorType = "kalori" | "protein" | "lemak" | "imt";
+
 export default function Kalkulator() {
-  // Set default kalkulator yang ditampilkan (kalori)
-  const [selectedCalculator, setSelectedCalculator] = useState<string>("kalori");
+  const [selectedCalculator, setSelectedCalculator] = useState<CalculatorType>("kalori");
 
   return (
     <div>
@@ -28,7 +29,7 @@ export default function Kalkulator() {
 
         {/* Pilihan Kalkulator */}
         <div className="flex flex-wrap justify-center gap-6 mb-12">
-          {[ 
+          {[
             { label: "Kalkulator Kalori", key: "kalori", icon: "🍔" },
             { label: "Kalkulator Protein", key: "protein", icon: "🥩" },
             { label: "Kalkulator Lemak Tubuh", key: "lemak", icon: "💪" },
@@ -36,12 +37,13 @@ export default function Kalkulator() {
           ].map((item) => (
             <button
               key={item.key}
-              className={`flex flex-col items-center p-6 w-40 h-40 border rounded-lg shadow-md transition-all ${
+              className={`flex flex-col items-center p-6 w-40 h-40 border rounded-lg shadow-md transition-transform duration-300 ${
                 selectedCalculator === item.key
                   ? "bg-orange-500 text-white scale-105"
                   : "bg-gray-100 text-gray-700 hover:bg-orange-100 hover:shadow-lg"
               }`}
-              onClick={() => setSelectedCalculator(item.key)}
+              onClick={() => setSelectedCalculator(item.key as CalculatorType)}
+              aria-label={`Pilih ${item.label}`}
             >
               <span className="text-4xl mb-3">{item.icon}</span>
               <span className="text-lg">{item.label}</span>
@@ -49,11 +51,13 @@ export default function Kalkulator() {
           ))}
         </div>
 
-        {/* Tampilkan Kalkulator yang dipilih */}
-        {selectedCalculator === "kalori" && <KalkulatorKalori />}
-        {selectedCalculator === "protein" && <KalkulatorProtein />}
-        {selectedCalculator === "lemak" && <KalkulatorLemak />}
-        {selectedCalculator === "imt" && <KalkulatorIMT />}
+        {/* Tampilkan Kalkulator yang Dipilih */}
+        <div className="transition-opacity duration-500 ease-in-out">
+          {selectedCalculator === "kalori" && <KalkulatorKalori />}
+          {selectedCalculator === "protein" && <KalkulatorProtein />}
+          {selectedCalculator === "lemak" && <KalkulatorLemak />}
+          {selectedCalculator === "imt" && <KalkulatorIMT />}
+        </div>
       </main>
       <Footer />
     </div>

@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Stepper from "./Stepper"; // ✅ Import Stepper
+import Stepper from "./Stepper";
 
+// Definisi struktur data untuk paket membership
 interface MembershipOption {
   price: string;
   duration: string;
@@ -15,6 +16,7 @@ interface MembershipData {
   };
 }
 
+// Daftar harga membership berdasarkan jenis kelamin dan status (Umum/Pelajar)
 const membershipPrices: MembershipData = {
   Pria: {
     Umum: [
@@ -65,6 +67,7 @@ export default function StepTwo({
   const membershipType = data.isStudent ? "Pelajar" : "Umum";
   const availablePackages = membershipPrices[data.gender]?.[membershipType] || [];
 
+  // Menghitung tanggal berakhir membership berdasarkan tanggal mulai dan durasi paket
   useEffect(() => {
     if (startDate && selectedPackage) {
       const end = new Date(startDate);
@@ -77,21 +80,22 @@ export default function StepTwo({
 
   const minStartDate = new Date().toISOString().split("T")[0];
 
+  // Validasi sebelum melanjutkan ke langkah berikutnya
   const handleNext = () => {
     if (!selectedPackage || !startDate) {
       setError("Pilih paket dan tanggal mulai terlebih dahulu!");
       return;
     }
 
-    // ✅ Ambil harga paket dalam bentuk angka (tanpa "Rp" dan titik)
+    // Menghapus format mata uang untuk mendapatkan angka total harga
     const totalPrice = parseInt(selectedPackage.price.replace(/\D/g, ""), 10);
 
-    // ✅ Kirim data ke StepFour termasuk harga total
+    // Mengirim data yang dipilih ke langkah berikutnya
     onNext({
       membership: selectedPackage,
       startDate,
       endDate,
-      total: totalPrice, // 💰 Pastikan total harga diteruskan ke StepFour
+      total: totalPrice,
     });
   };
 
@@ -100,7 +104,7 @@ export default function StepTwo({
       <div className="max-w-md mx-auto py-12 px-8 bg-white rounded-3xl shadow-lg">
         <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Pilih Membership</h2>
 
-        {/* Pilihan Paket */}
+        {/* Pilihan Paket Membership */}
         <div className="mb-6">
           <label className="block text-sm text-gray-700 font-medium mb-2">Pilih Paket Membership</label>
           {availablePackages.map((option, index) => (
@@ -116,7 +120,7 @@ export default function StepTwo({
           ))}
         </div>
 
-        {/* Input Tanggal Mulai */}
+        {/* Input Tanggal Mulai Membership */}
         <div className="mb-6">
           <label className="block text-sm text-gray-700 font-medium mb-2">Mulai Member</label>
           <input
@@ -128,7 +132,7 @@ export default function StepTwo({
           />
         </div>
 
-        {/* Estimasi Masa Berlaku */}
+        {/* Estimasi Masa Berlaku Membership */}
         {endDate && (
           <div className="mb-6">
             <label className="block text-sm text-gray-700 font-medium mb-2">Masa Berlaku Hingga</label>
@@ -141,7 +145,7 @@ export default function StepTwo({
           </div>
         )}
 
-        {/* Error Message */}
+        {/* Pesan Error */}
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
         {/* Tombol Navigasi */}
