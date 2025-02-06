@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-// ✅ Definisikan tipe data untuk Member
+//  Definisikan tipe data untuk Member
 interface Member {
   id: number;
   name: string;

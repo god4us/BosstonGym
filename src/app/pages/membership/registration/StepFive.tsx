@@ -27,10 +27,14 @@ export default function StepFive({ data }: { data: any }) {
         {/* Kartu Member */}
         <div className="flex flex-col items-center">
           <img
-            src="/img/1.jpg"
+            src="/img/1card.png"
             alt="Kartu Member BosstonGym"
             className="w-72 h-44 rounded-lg shadow-md object-cover"
-          />
+          />          <img
+          src="/img/2card.png"
+          alt="Kartu Member BosstonGym"
+          className="w-72 h-44 rounded-lg shadow-md object-cover"
+        />
           <p className="text-sm text-gray-600 mt-2 text-center">
             Ambil kartu member Anda di kasir BosstonGym. <br />
             Gunakan kartu ini sebagai <b>bukti keanggotaan</b> dan untuk <b>tapping masuk ke gym</b> setiap kali berkunjung.
@@ -55,7 +59,7 @@ export default function StepFive({ data }: { data: any }) {
         <div className="mt-6 flex justify-center">
           {showLoginButton && (
             <button
-              onClick={() => router.push("/login")}
+              onClick={() => router.push("/pages/login")}
               className="bg-orange-500 text-white py-3 px-6 rounded-xl shadow-md hover:bg-orange-600 transition-all"
             >
               Login ke SelfService-BosstonGym

@@ -1,10 +1,10 @@
 import Layout from "../componentp/Layout";
 
 const memberData = {
-  id: "12345",
+  id: "294",
   name: "Rifky Firdaus",
-  email: "rifky@example.com",
-  joinedDate: "1 Januari 2024",
+  email: "rifkyfrds@gmail.com",
+  joinedDate: "10 Februari 2025",
   membershipDuration: "12 Bulan",
 };
 

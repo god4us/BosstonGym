@@ -25,9 +25,9 @@ export default function MembershipPage() {
     whatsapp: "",
     membershipType: "",
     duration: "",
-    price: 0, // ✅ Harga default 0, akan diperbarui di StepTwo
+    price: 0, //  Harga default 0, akan diperbarui di StepTwo
     paymentMethod: "",
-    total: 0, // ✅ Tambahkan total harga agar bisa diteruskan ke StepFour dan StepFive
+    total: 0, //  Tambahkan total harga agar bisa diteruskan ke StepFour dan StepFive
   });
 
   const handleNextStep = (data: any) => {
@@ -68,8 +68,8 @@ export default function MembershipPage() {
           {step === 3 && <StepThree data={formData} onBack={handlePrevStep} onNext={handleNextPayment} step={3} />}
           {step === 4 && (
             <StepFour
-              paymentMethod={paymentMethod} // ✅ Pastikan metode pembayaran diteruskan
-              total={formData.total} // ✅ Kirim total harga ke StepFour
+              paymentMethod={paymentMethod} //  Pastikan metode pembayaran diteruskan
+              total={formData.total} //  Kirim total harga ke StepFour
               onBack={handlePrevStep}
               onNext={() => setStep(5)}
               step={4}

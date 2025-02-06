@@ -70,7 +70,7 @@ export default function StepFour({ onNext, onBack, paymentMethod, step, total }:
         <div className="flex flex-col items-center bg-gray-100 p-4 rounded-xl">
           {paymentMethod === "QRIS" ? (
             <>
-              <img src="/img/1.jpg" alt="QRIS Pembayaran" className="w-48 h-48 rounded-md shadow-md" />
+              <img src="/img/qris.jpg" alt="QRIS Pembayaran" className="w-48 h-48 rounded-md shadow-md" />
               <p className="text-sm text-gray-700 mt-2">Scan QRIS untuk melakukan pembayaran.</p>
             </>
           ) : (
@@ -78,7 +78,7 @@ export default function StepFour({ onNext, onBack, paymentMethod, step, total }:
               <p className="text-lg font-semibold">Bank BCA</p>
               <p className="text-md font-bold text-gray-900">123 456 7890</p>
               <p className="text-sm text-gray-600">a.n. BosstonGym</p>
-              <img src="/img/1.jpg" alt="Bukti Pembayaran" className="w-48 h-48 rounded-md shadow-md mt-4" />
+              <img src="/img/qris.jpg" alt="Bukti Pembayaran" className="w-48 h-48 rounded-md shadow-md mt-4" />
             </>
           )}
         </div>

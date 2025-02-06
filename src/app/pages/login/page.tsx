@@ -23,7 +23,7 @@ export default function LoginPage() {
         json: async () => {
           if (email === "admin@bosstongym.com" && password === "admin123") {
             return { role: "admin" };
-          } else if (email === "member@bosstongym.com" && password === "member123") {
+          } else if (email === "rifkyfrds@gmail.com" && password === "rifky123") {
             return { role: "member" };
           } else {
             throw new Error("Email atau password salah.");

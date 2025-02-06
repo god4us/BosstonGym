@@ -5,15 +5,11 @@ import Footer from "../../../components/Footer";
 import Link from "next/link";
 import { FaArrowLeft } from "react-icons/fa";
 import promotions from "../promotions.json";
+import { useParams } from "next/navigation";
 
-interface PromotionDetailPageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default function PromotionDetailPage({ params }: PromotionDetailPageProps) {
-  const { id } = params; // Langsung akses ID dari params
+export default function PromotionDetailPage() {
+  const params = useParams();
+  const id = params?.id as string; // Pastikan id bertipe string
 
   const promo = promotions.find((item) => item.id.toString() === id);
 
